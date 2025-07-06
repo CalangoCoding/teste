@@ -1,0 +1,31 @@
+{
+  "name": "plataforma-estudos-monorepo",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm:start:web\" \"npm:start:api\" \"docker-compose up db redis\" \"wait-on http://localhost:3000 && start chrome http://localhost:3000\"",
+    "start:web": "npm --workspace=apps/web run dev",
+    "start:api": "npm --workspace=apps/api run start:dev",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
+    "format": "prettier --write .",
+    "test": "jest --coverage",
+    "test:e2e": "playwright test",
+    "migrate": "prisma migrate dev --schema=apps/api/prisma/schema.prisma"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "wait-on": "^7.0.1",
+    "prettier": "^3.2.5",
+    "eslint": "^8.56.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "commitlint": "^18.4.2",
+    "@commitlint/config-conventional": "^18.4.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+} 
